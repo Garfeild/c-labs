@@ -60,11 +60,8 @@ int main(int argc, char *argv[])
         fd = open (argv[file], O_WRONLY | O_TRUNC);
         write(fd, buf, i);
       }
-      else if ( i < mlength ) { 
-        close(fd);
-        fd = open (argv[file], O_WRONLY | O_TRUNC);
-        write(fd, buf, i);
-      }
+      else if ( i < mlength )
+        ;
       else if ( i == BUFSIZ ) {
         k = lseek(fd, 0.0, 2);
 
@@ -78,12 +75,12 @@ int main(int argc, char *argv[])
         close(fd);
         if ( (fd = open (argv[file], O_WRONLY | O_TRUNC)) != -1)  {
           write(fd, tmpstr, i);   
-          close(fd);
         }
         else 
           printf("Error: unable to write\n");
       }
     }
+    close(fd);
   }
   
   exit(0);
