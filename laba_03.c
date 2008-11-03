@@ -20,24 +20,13 @@ int main (int argc, char *argv[])
   int i;
   char buf[BUFSIZ];
   
-  //if ( argc == 2 )
-  //{
+  if ( argc == 3 )  {
     printf("Process 1, PID %d\n", pid1 = getpid());
-    if ( (pid2 = fork()) == 0 )
-    {
+    if ( (pid2 = fork()) == 0 ) {
       printf("Process 2, PID %d\n", pid2 = getpid());
-      wait(&st);
     }
+    wait(&st);
+  }
 
-    if ( (fd = open(argv[1], O_RDONLY)) != -1 )
-    {
-      i = read(fd, buf, BUFSIZ);
-      printf("%d\n", pid1);
-      printf("String from file:\n%s\n", buf);
-    }
-    close(fd);
-
-
-  //}
   return 0;
 }

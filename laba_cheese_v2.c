@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
   char ch;
   char ch2 = '\r'; //add
-  int fd, i, file;
+  int fd, i, file, fd2;
   int toDos = -1;
 
   for ( i=0; i<argc; i++)
@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     printf("Error\n");
     exit(-1);
   }
-  else   {
-    if ( (fd = open(argv[file], O_RDWR)) == -1) {
+   else   {
+     if ( (fd = open(argv[file], O_RDONLY)) == -1 && (fd2 = open(argv[file], O_WRONLY) == -1)) {
       printf("Error: No such file %s\n", argv[file]);
       exit(-1);
     }
@@ -39,17 +39,22 @@ int main(int argc, char *argv[])
       while ( (i = read(fd, &ch, 1)) == 1 ) {
         if ( toDos == 1 )  {
           if ( ch == '\n' ) {
-            write(fd, &ch2, 1); //add
+            printf("found\n");
+            write(fd2, "\r", 1); //add
+            write(fd2, "\r", 1); //add
           }
         }
         else  if ( toDos == 0 ) {
           if ( ch == '\r' ) {
             read(fd, &ch, 1); //add
+            write(fd2, &ch, 1); //add
           }
         }
-        write(fd, &ch, 1); //add
+        //lseek(fd, -1, 1);
+        //write(fd2, &ch, 1); //add
       }
       close(fd);
+      close(fd2);
     }
   }
   return 0;
